@@ -44,6 +44,13 @@
         </dependency>
     </dependencies>
 
+    <developers>
+        <developer>
+            <name>Johanna Rojas</name>
+            <email>johannarojasgon@gmail.com</email>
+        </developer>
+    </developers>
+
     <build>
         <plugins>
             <plugin>
