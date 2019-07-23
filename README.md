@@ -1,5 +1,8 @@
 # number-to-words
 
+The application is accessible from anywhere http://johannatestnumber.us-east-1.elasticbeanstalk.com:9009/ 
+
+---------------------------------------------------------------------------------------------------------
 1.To build the application:
 
 mvn clean install
@@ -10,9 +13,11 @@ java -jar number-to-word-1.0.0-SNAPSHOT.jar
 
 3.To request a number conversion:
 
-    - You can access the UI from your browser by the URL:
+- You can access the UI from your browser by the URL:
+    
+In your local environment http://localhost:9009
 
-    http://localhost:9009
+Or from anywhere http://johannatestnumber.us-east-1.elasticbeanstalk.com:9009/ 
     
 ![UI Number to Word](Screenshot-UI.png)
 
