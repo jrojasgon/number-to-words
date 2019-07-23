@@ -18,7 +18,7 @@ java -jar number-to-word-1.0.0-SNAPSHOT.jar
 
 - You can call the service using http get from your browser :
 
-    http://localhost:9009/convertToWord/**89** 
+    http://localhost:9009/convertToWord/89 
 
 **89** is the number to convert, please change it with the number you wish to convert
 
