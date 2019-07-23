@@ -1,31 +1,36 @@
 package com.jrojas.sonatype.controller;
 
 import com.jrojas.sonatype.utils.NumberToWordUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.Locale;
+import static com.jrojas.sonatype.constants.NumberToWordConstants.*;
 
-/*
- TODO
+
+/**
+ * The controller to expose a method that convert an {@code int} value to its UK English words
  */
 @RestController
 public class NumberToWordController {
 
+    /**
+     * @param value the value to convert
+     * @return {code @ResultResponse} with the words representing the number or the error message and a flag to indicate if there is an error
+     */
     @RequestMapping(value = "/convertToWord/{value}", method = RequestMethod.GET)
-    public String convertToWord(@PathVariable String value) {
+    public ResultResponse convertToWord(@PathVariable String value) {
 
-        // TODO implement validations : value range
+        if (StringUtils.isEmpty(value)) return new ResultResponse(EMPTY_VALUE, true);
+
+        // only signed 32 bit integer are allowed
         try {
-            Number number = NumberFormat.getInstance(Locale.UK).parse(value);
-            return NumberToWordUtils.convertNumberToWord(number.intValue());
-        } catch (ParseException e) {
-            // TODO handle error message
-            return "Error";
+            return new ResultResponse(NumberToWordUtils.convertNumberToWords(Integer.parseInt(value)));
+        } catch (NumberFormatException e) {
+            return new ResultResponse(RANGE_ERROR, true);
         }
+
     }
 }
