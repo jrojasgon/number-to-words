@@ -1,9 +1,18 @@
 package com.jrojas.sonatype.utils;
 
-import com.jrojas.sonatype.constants.NumberToWordConstants;
 import org.springframework.util.StringUtils;
 
-import static com.jrojas.sonatype.constants.NumberToWordConstants.*;
+import static com.jrojas.sonatype.constants.NumberToWordConstants.AND;
+import static com.jrojas.sonatype.constants.NumberToWordConstants.BILLION;
+import static com.jrojas.sonatype.constants.NumberToWordConstants.HUNDRED;
+import static com.jrojas.sonatype.constants.NumberToWordConstants.MILLION;
+import static com.jrojas.sonatype.constants.NumberToWordConstants.NEGATIVE_PREFIX;
+import static com.jrojas.sonatype.constants.NumberToWordConstants.ONE_BILLION;
+import static com.jrojas.sonatype.constants.NumberToWordConstants.ONE_HUNDRED;
+import static com.jrojas.sonatype.constants.NumberToWordConstants.ONE_MILLION;
+import static com.jrojas.sonatype.constants.NumberToWordConstants.ONE_THOUSAND;
+import static com.jrojas.sonatype.constants.NumberToWordConstants.SEPARATOR;
+import static com.jrojas.sonatype.constants.NumberToWordConstants.THOUSAND;
 
 /**
  * Utility class to handle the conversion from an {@code int} number to words in UK english
