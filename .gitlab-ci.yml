@@ -10,6 +10,11 @@ build:
     - mvn -Dmaven.test.skip=true clean install
   only:
     - master
+  artifacts:
+    name: "artifact"
+    paths:
+      - target/*.jar
+    expire_in: 1 day
 
 test:
   stage: test
@@ -17,3 +22,8 @@ test:
     - mvn test
   only:
     - master
+  artifacts:
+    name: "reportTest"
+    paths:
+      - target/*.jar
+    expire_in: 1 day
