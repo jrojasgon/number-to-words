@@ -1,18 +1,7 @@
 package com.jrojas.sonatype.utils;
 
-import org.springframework.util.StringUtils;
-
-import static com.jrojas.sonatype.constants.NumberToWordConstants.AND;
-import static com.jrojas.sonatype.constants.NumberToWordConstants.BILLION;
-import static com.jrojas.sonatype.constants.NumberToWordConstants.HUNDRED;
-import static com.jrojas.sonatype.constants.NumberToWordConstants.MILLION;
-import static com.jrojas.sonatype.constants.NumberToWordConstants.NEGATIVE_PREFIX;
-import static com.jrojas.sonatype.constants.NumberToWordConstants.ONE_BILLION;
-import static com.jrojas.sonatype.constants.NumberToWordConstants.ONE_HUNDRED;
-import static com.jrojas.sonatype.constants.NumberToWordConstants.ONE_MILLION;
-import static com.jrojas.sonatype.constants.NumberToWordConstants.ONE_THOUSAND;
-import static com.jrojas.sonatype.constants.NumberToWordConstants.SPACE;
-import static com.jrojas.sonatype.constants.NumberToWordConstants.THOUSAND;
+import static com.jrojas.sonatype.constants.NumberToWordConstants.*;
+import static org.springframework.util.StringUtils.capitalize;
 
 /**
  * Utility class to handle the conversion from an {@code int} number to words in UK english
@@ -67,8 +56,9 @@ public final class NumberToWordUtils {
 
         if (number == 0) return ZERO_TO_NINETEEN[0];
 
+        StringBuilder wordsBuilder = new StringBuilder();
+
         if (number < 0) {
-            StringBuilder wordsBuilder = new StringBuilder();
             wordsBuilder.append(NEGATIVE_PREFIX);
             // special case for Integer.MIN_VALUE which cannot be contained as positive number
             if (Integer.MIN_VALUE == number) {
@@ -77,10 +67,13 @@ public final class NumberToWordUtils {
             } else {
                 wordsBuilder.append(handleConversion(Math.abs(number)).trim());
             }
-            return wordsBuilder.toString();
+        } else {
+            wordsBuilder.append(handleConversion(number).trim());
         }
 
-        return StringUtils.capitalize(handleConversion(number).trim());
+        // in case there is a hundred value in the word followed by any other word, then add the word AND between
+        // one hundred fifty five becomes one hundred and fifty five
+        return capitalize(wordsBuilder.toString().replaceAll(REGEX_HUNDRED_AND, HUNDRED_AND));
     }
 
 
@@ -96,6 +89,11 @@ public final class NumberToWordUtils {
         StringBuilder wordsBuilder = new StringBuilder();
         int number = numberToConvert;
 
+        // the maximum and minimum permitted values are in the billion range :
+        // if the number divided by one billion is greater than zero then get the word of the result of the division.
+        // calculate the reminder of that division.
+        // repeat the same steps dividing by one million, one thousand, and one hundred
+
         // start by billion
         if (number / ONE_BILLION > 0) {
             handleAppend(wordsBuilder, handleConversion(number / ONE_BILLION), BILLION);
@@ -104,19 +102,19 @@ public final class NumberToWordUtils {
 
         // continue with millions
         if (number / ONE_MILLION > 0) {
-            handleAppend(wordsBuilder, handleConversion( number / ONE_MILLION), MILLION);
+            handleAppend(wordsBuilder, handleConversion(number / ONE_MILLION), MILLION);
             number %= ONE_MILLION;
         }
 
         // continue with thousands
         if (number / ONE_THOUSAND > 0) {
-            handleAppend(wordsBuilder, handleConversion( number / ONE_THOUSAND), THOUSAND);
+            handleAppend(wordsBuilder, handleConversion(number / ONE_THOUSAND), THOUSAND);
             number %= ONE_THOUSAND;
         }
 
         // continue with hundreds
         if (number / ONE_HUNDRED > 0) {
-            handleAppend(wordsBuilder, handleConversion( number / ONE_HUNDRED), HUNDRED);
+            handleAppend(wordsBuilder, handleConversion(number / ONE_HUNDRED), HUNDRED);
             number %= ONE_HUNDRED;
         }
 
@@ -129,14 +127,12 @@ public final class NumberToWordUtils {
     /**
      * Converts an {@code int} value from one to ninety to UK English word
      *
-     * @param number the number to convert
-     * @param wordsBuilder  the words to append to the new converted value
+     * @param number       the number to convert
+     * @param wordsBuilder the words to append to the new converted value
      */
     private static void handleConversionOneToNinety(final int number, final StringBuilder wordsBuilder) {
         if (number > 0) {
-            if (!wordsBuilder.toString().isEmpty()) {
-                wordsBuilder.append(AND);
-            }
+
             if (number < 20) {
                 wordsBuilder.append(ZERO_TO_NINETEEN[number]);
             } else {
@@ -150,6 +146,11 @@ public final class NumberToWordUtils {
         }
     }
 
+
+    /**
+     * @param wordsBuilder the {@code StringBuilder} to manipulate
+     * @param values the values to append to the {@param wordsBuilder}
+     */
     private static void handleAppend(StringBuilder wordsBuilder, String... values) {
         for (String value : values) {
             wordsBuilder.append(value);
