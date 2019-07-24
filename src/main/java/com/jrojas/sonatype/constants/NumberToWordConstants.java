@@ -10,7 +10,7 @@ public final class NumberToWordConstants {
 
     public static final String EMPTY_VALUE = "Empty values are not allowed";
     public static final String RANGE_ERROR = "No floating point numbers, only integers : Value must be between -2 147 483 648 and 2 147 483 647";
-    public static final String SEPARATOR = "-";
+    public static final String SPACE = " ";
     public static final String NEGATIVE_PREFIX = "Negative ";
     public static final String AND = "and ";
 

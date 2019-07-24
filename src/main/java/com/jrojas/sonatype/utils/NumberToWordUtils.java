@@ -11,7 +11,7 @@ import static com.jrojas.sonatype.constants.NumberToWordConstants.ONE_BILLION;
 import static com.jrojas.sonatype.constants.NumberToWordConstants.ONE_HUNDRED;
 import static com.jrojas.sonatype.constants.NumberToWordConstants.ONE_MILLION;
 import static com.jrojas.sonatype.constants.NumberToWordConstants.ONE_THOUSAND;
-import static com.jrojas.sonatype.constants.NumberToWordConstants.SEPARATOR;
+import static com.jrojas.sonatype.constants.NumberToWordConstants.SPACE;
 import static com.jrojas.sonatype.constants.NumberToWordConstants.THOUSAND;
 
 /**
@@ -131,7 +131,6 @@ public final class NumberToWordUtils {
      *
      * @param number the number to convert
      * @param wordsBuilder  the words to append to the new converted value
-     * @return the words representing the number
      */
     private static void handleConversionOneToNinety(final int number, final StringBuilder wordsBuilder) {
         if (number > 0) {
@@ -144,7 +143,8 @@ public final class NumberToWordUtils {
                 wordsBuilder.append(TWENTY_TO_NINETY[number / 10]);
                 final int modulo = number % 10;
                 if (modulo > 0) {
-                    wordsBuilder.append(SEPARATOR + ZERO_TO_NINETEEN[modulo]);
+                    wordsBuilder.append(SPACE);
+                    wordsBuilder.append(ZERO_TO_NINETEEN[modulo]);
                 }
             }
         }
